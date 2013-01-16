@@ -1,0 +1,95 @@
+<head>
+  <title>Point and Figure</title>
+</head>
+
+<body>
+	<div class="container-main span12">
+
+		<div class="row span12">
+			<div class="span3" id="titleBox">
+				<h2>The Point and Figure</h2>
+				<div id="moreData">
+				  {{> hello}}
+				</div>
+				<br/>
+				<h6>Company name:</h6>
+				<h6>Date of incorporation:</h6>
+				<h6>Other information:</h6>
+				<h6>Other information:</h6>
+				<h6>Other information:</h6>
+				<h6>Other information:</h6>
+				<h6>Other information:</h6>
+				<h6>Other information:</h6>
+				<h6>Other information:</h6>
+				<h6>Other information:</h6>
+				<h6>Other information:</h6>
+			</div>
+			<div class="span8">
+				<div class="row span11" id="buttonBox">
+					{{> getChart}}
+					<div class="btn-group pull-right">
+					  <a class="btn dropdown-toggle btn-inverse" data-toggle="dropdown" href="#">
+					    Sectors
+					    <span class="caret"></span>
+					  </a>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+						  {{> sectorMenu}}
+					    <li class="divider"></li>
+					    <li><a tabindex="-1" href="#">Separated link</a></li>
+					  </ul>
+					</div>
+					<div class="btn-group pull-right">
+					  <a class="btn dropdown-toggle btn-inverse" data-toggle="dropdown" href="#">
+					    Trending
+					    <span class="caret"></span>
+					  </a>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+						  <li class="dropdown-submenu">
+						    <a tabindex="-1" href="#">List of ten? most selected stocks?</a>
+						  </li>
+					    <li class="divider"></li>
+					    <li><a tabindex="-1" href="#">Separated link</a></li>
+					  </ul>
+					</div>
+				</div>
+				<div class="span11" id="chartBox">Chart Box<br/>
+					{{> renderChart}}
+				</div>
+			</div>
+		</div>
+
+	</div> <!-- End class="container-main span12" -->
+</body>
+
+<template name="getChart">
+	<input type="text" placeholder="Enter ticker symbol here" id="tickerInput"/>
+	<button type="button" class="btn-inverse" value="Show me the money">Show me the money!</button>
+</template>
+
+<template name="hello">
+  <h1>Hello World!</h1>
+  {{greeting}}
+  <input type="button" value="Click" />
+</template>
+
+<template name="sectorMenu">
+	{{#each sectorList}}
+	  <li class="dropdown-submenu">
+	    <a tabindex="-1" href="#">{{sector}}</a>
+    	{{> sectorStockMenu}}
+	  </li>
+  {{/each}}
+</template>
+
+<template name="sectorStockMenu">
+	{{#each sectorStockList}}
+    <ul class="dropdown-menu">
+      <li><a tabindex="-1" href="#">{{sectorStock}}</a></li>
+    </ul>
+	{{/each}}
+</template>
+
+<template name="renderChart">
+	<svg id="chart"></svg>
+	{{draw}}
+</template>

@@ -1,0 +1,65 @@
+  <head>
+    <title>stackoverflow</title>
+  </head>
+
+  <body>
+<div class="container main">
+  <div class="row">
+    <div class="span6 offset3">
+  {{> page}}
+    </div>
+  </div>
+  <div class="row">
+    <h1>HELLO!</h1>
+  </div>
+</div>
+
+<div class="hide fade modal">
+<div class="modal-header">
+  This is the head.
+</div>
+<div class="modal-body">
+
+</div>
+</div>
+  </body>
+
+<template name="page">
+  {{#unless set_user }}
+    {{> nameinput}}
+  {{/unless}}
+  {{#if set_user}}
+    {{> hello}}
+  {{/if}}
+  {{> questionsarea}}
+
+</template>
+
+<template name="hello">
+  <h1>Hello World!</h1>
+  {{greeting}}
+  <input type="button" value="Click" />
+  <h2>{{username}}</h2>
+  <textarea placeholder="Ask a question"></textarea><br/>
+  <button>Ask!</button>
+</template>
+
+<template name="nameinput">
+  <input type="text" placeholder="Type in a username">
+</template>
+
+<template name="questionsarea">
+  <h1>Recent topics</h1>
+  {{#each question}}
+    <a class="question" data-id="{{_id}}">{{text}}<a><br/>
+    <div>
+      {{#each answers}}
+        {{text}}<br/>
+      {{/each}}
+    </div>
+    <a href="#" data-id="{{user}}">{{username}}</a><br/>
+    <textarea id="answer{{_id}}" class="hide" placeholder="Post your answer here"></textarea>
+    <button id="button{{_id}}" class="hide btn btn-primary">Submit</button>
+    <br/>
+  {{/each}}
+</template>
