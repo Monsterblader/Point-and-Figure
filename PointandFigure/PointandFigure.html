@@ -91,5 +91,7 @@
 
 <template name="renderChart">
 	<svg id="chart"></svg>
-	{{draw}}
+	{{#constant}}
+		{{draw}}
+	{{/constant}}
 </template>

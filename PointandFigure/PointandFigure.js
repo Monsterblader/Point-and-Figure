@@ -2,8 +2,6 @@ SectorList = new Meteor.Collection("sectors");
 SectorStockList = new Meteor.Collection("sectorStocksList");
 StockData = new Meteor.Collection("stockData");
 
-var savedData;
-
 if (Meteor.isClient) {
   Template.hello.greeting = function () {
     return "Welcome to PointandFigure.";
@@ -18,9 +16,10 @@ if (Meteor.isClient) {
   };
 
   Template.renderChart.draw = function (){
-// BEGIN stock render script
+  };
 
-
+  Template.renderChart.rendered = function (){
+    // BEGIN stock render script
     var findRange = function (prices){
       var extremes = {high: prices[0], low: prices[0]};
       prices.forEach(function (val){
@@ -125,37 +124,51 @@ if (Meteor.isClient) {
       ctx.restore();
     }
 
-    // if(StockData.findOne({chart: "goog"})){
-    //   var showme = StockData.findOne({chart: "goog"});
-    //   console.log(showme.data);
-    // }
-// Meteor.autosubscribe(function(){
-//     Meteor.subscribe("stockData", function(incoming){
-//       console.log(incoming);
-//     });
-// })
+    console.log("rendered")
     var tickerSymb = $("#tickerInput").val();
-    var svg = d3.select("svg");
-    svg
-      .attr("height", "500")
-      .attr("height", "500");
-    // if (StockData.findOne({chart: tickerSymb})) {
-    //   var savedData = StockData.findOne({chart: tickerSymb}).data
-    //   console.log("Hello?" + savedData);
-    //   var priceRange = findRange(savedData);
-    //   var chartWidth = 600;
-    //   var chartHeight = Math.max(600, (priceRange.high - priceRange.low) * 10);
-    //   // TODO could remove var chartData when not using in console.log
-    //   $("#chart").append("<div id='container" + tickerSymb + "'><br><div class='chartTitle'>" + tickerSymb.toUpperCase() + "</div>" +
-    //                          "<canvas class='pnfChart' id='" + tickerSymb + "Chart' width='" + chartWidth + "' height='" + chartHeight + "'></canvas></div>");
+    if (StockData.findOne({chart: tickerSymb})) {
+      var savedData = StockData.findOne({chart: tickerSymb}).data
+      console.log("Hello?" + savedData);
+      var svg = d3.select("svg");
+      var priceRange = findRange(savedData);
+      var chartWidth = 600;
+      var chartHeight = Math.max(600, (priceRange.high - priceRange.low) * 10);
+      svg
+        .attr("height", chartHeight)
+        .attr("height", chartWidth);
+       // TODO could remove var chartData when not using in console.log
+    // debugger
+    //   $("#chart").append("<div id='container2'><br><div class='chartTitle'>" + tickerSymb.toUpperCase() + "</div>" +
+    //                          "<canvas class='pnfChart' id='2Chart' width='" + chartWidth + "' height='" + chartHeight + "'></canvas></div>");
     //   $("#tickerInput").val("");
-    //   var canvas = document.getElementById(tickerSymb + "Chart");
-    //   /*canvas.getContext &&*/ webkitRequestAnimationFrame(function (){
-    //     createChart(canvas.getContext("2d"), savedData, priceRange, chartHeight);
-    //   });
-    // }
+    //   var canvas = document.getElementById("2Chart");
+    //   var ctx = canvas.getContext("2d");
+    //   ctx.beginPath();
+    //   ctx.moveTo(20, 0);
+    //   ctx.lineTo(600, 6000);
+    //   ctx.stroke();
+
+
+      // /*canvas.getContext &&*/ webkitRequestAnimationFrame(function (){
+      //   createChart(canvas.getContext("2d"), savedData, priceRange, chartHeight);
+      // });
+    }
     // END chart render script
-  };
+      // var svg = d3.select("svg");
+      // svg
+      //   .attr("height", 600)
+      //   .attr("height", 600);
+      // svg
+      //   .append("svg:line")
+      //   .attr("x1", "20")
+      //   .attr("y1", "0")
+      //   .attr("x2", "20")
+      //   .attr("y2", "500");
+      // svg.append("circle")
+      //   .attr("cx", "250")
+      //   .attr("cy", "250")
+      //   .attr("r", "20");
+  }
 
   Template.hello.events({
     'click input' : function () {
@@ -168,7 +181,6 @@ if (Meteor.isClient) {
   Template.getChart.events({
     'click button': function (){
       var stockPrices = Meteor.call("loadChart", $("#tickerInput").val());
-      // console.log(stockPrices);
     }
   });
 }
@@ -186,9 +198,6 @@ if (Meteor.isServer) {
   });
   Meteor.methods({
     loadChart: function (tickerSymb){
-      // Meteor.publish("stockData", function(){
-      //   return "hahaha";
-      // })
       var todayms = new Date();
       var stockArray = [];
       // TODO if time of request after market close, use today's date, else use yesterday's date.
@@ -205,9 +214,11 @@ if (Meteor.isServer) {
                       .filter(function (val, key){ return (key % 6) === 0; })
                       .map(function (val, key){ return parseFloat(val); });
         StockData.remove({});
-        StockData.insert({chart: tickerSymb, data: stockArray});
-        // savedData = stockArray;
-        // console.log(savedData);
+        // if (StockData.find({chart: tickerSymb}).count()) {
+        //   StockData.update({chart: tickerSymb, data: stockArray});
+        // } else {
+          StockData.insert({chart: tickerSymb, data: stockArray});        
+        // }
       });
     }
   });
