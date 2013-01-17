@@ -9,20 +9,19 @@
 			<div class="span3" id="titleBox">
 				<h2>The Point and Figure</h2>
 				<div id="moreData">
-				  {{> hello}}
+					<br/>
+					<h6>Company name:</h6>
+					<h6>Date of incorporation:</h6>
+					<h6>Other information:</h6>
+					<h6>Other information:</h6>
+					<h6>Other information:</h6>
+					<h6>Other information:</h6>
+					<h6>Other information:</h6>
+					<h6>Other information:</h6>
+					<h6>Other information:</h6>
+					<h6>Other information:</h6>
+					<h6>Other information:</h6>
 				</div>
-				<br/>
-				<h6>Company name:</h6>
-				<h6>Date of incorporation:</h6>
-				<h6>Other information:</h6>
-				<h6>Other information:</h6>
-				<h6>Other information:</h6>
-				<h6>Other information:</h6>
-				<h6>Other information:</h6>
-				<h6>Other information:</h6>
-				<h6>Other information:</h6>
-				<h6>Other information:</h6>
-				<h6>Other information:</h6>
 			</div>
 			<div class="span8">
 				<div class="row span11" id="buttonBox">
@@ -66,12 +65,6 @@
 	<button type="button" class="btn-inverse" value="Show me the money">Show me the money!</button>
 </template>
 
-<template name="hello">
-  <h1>Hello World!</h1>
-  {{greeting}}
-  <input type="button" value="Click" />
-</template>
-
 <template name="sectorMenu">
 	{{#each sectorList}}
 	  <li class="dropdown-submenu">
@@ -90,8 +83,5 @@
 </template>
 
 <template name="renderChart">
-	<svg id="chart"></svg>
-	{{#constant}}
-		{{draw}}
-	{{/constant}}
+	{{draw}}
 </template>
