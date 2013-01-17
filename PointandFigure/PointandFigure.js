@@ -57,12 +57,12 @@ if (Meteor.isClient) {
         my_gradient.addColorStop(0,"gray");
         my_gradient.addColorStop(1,"white");
         ctx.fillStyle=my_gradient;
-        ctx.fillRect(0, 0, 300, chartHeight);
+        ctx.fillRect(0, 0, 600, chartHeight);
         // End section
         ctx.shadowColor = undefined;
         var axisLeftOffset = Math.max(16, (Math.floor(Math.log(priceRange.high) / Math.LN10) + 2) * 5) + 1;
         drawLine(ctx, makePoint(axisLeftOffset, 0), makePoint(axisLeftOffset, chartHeight), "black");
-        // Following line is no longer needed?
+        // Following line (x-axis) is no longer needed?
         // drawLine(ctx, makePoint(0, 150), makePoint(300, 150), "black");
         labelAxis(ctx, priceRange);
       };
@@ -124,17 +124,17 @@ if (Meteor.isClient) {
 
     var tickerSymb = $("#tickerInput").val();
     if (StockData.findOne({chart: tickerSymb})) {
-      console.log("rendered");
       var savedData = StockData.findOne({chart: tickerSymb}).data
       var priceRange = findRange(savedData);
       var chartWidth = 600;
       var chartHeight = Math.max(600, (priceRange.high - priceRange.low) * 10);
-      $("#chartBox").append("<div class='chartTitle'>" + tickerSymb.toUpperCase() + "</div>" +
-                            "<canvas class='pnfChart' id='" + tickerSymb + "Chart' width='" + chartWidth + "' height='" + chartHeight + "'></canvas></div>");
+      $(".chartGroup").remove();
+      $("#chartBox").append("<div class='chartTitle chartGroup'>" + tickerSymb.toUpperCase() + "</div>" +
+                            "<canvas class='pnfChart chartGroup' id='" + tickerSymb + "Chart' width='" + chartWidth + "' height='" + chartHeight + "'></canvas></div>");
       $("#testBox").val("");
       var canvas = document.getElementById(tickerSymb + "Chart");
       debugger
-      /*canvas.getContext && */webkitRequestAnimationFrame(function (){
+      canvas.getContext && webkitRequestAnimationFrame(function (){
         createChart(canvas.getContext("2d"), savedData, priceRange, chartHeight);
       });
     }
@@ -162,7 +162,6 @@ if (Meteor.isServer) {
   Meteor.methods({
     loadChart: function (tickerSymb){
       var todayms = new Date();
-      var stockArray = [];
       // TODO if time of request after market close, use today's date, else use yesterday's date.
       var today = new Date(todayms - (1000 * 60 * 60 * 24));
       var startDate = new Date(todayms - (1000 * 60 * 60 * 24 * 61));
@@ -171,7 +170,7 @@ if (Meteor.isServer) {
       var chartReq = "http://ichart.yahoo.com/table.csv?s=" + tickerSymb + abc + def + "&g=d&ignore=.csv";
       StockData.insert({ticker: tickerSymb})
       Meteor.http.get(chartReq, function(err, response){
-        stockArray = response.content
+        var stockArray = response.content
                       .split(",")
                       .slice(10)
                       .filter(function (val, key){ return (key % 6) === 0; })
