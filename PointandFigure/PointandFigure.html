@@ -44,9 +44,7 @@
 						    <span class="caret"></span>
 						  </a>
 							<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-							  <li class="dropdown-submenu">
-							    <a tabindex="-1" href="#">List of ten? most selected stocks?</a>
-							  </li>
+								{{> trendingMenu}}
 						    <li class="divider"></li>
 						    <li><a tabindex="-1" href="#">Separated link</a></li>
 						  </ul>
@@ -83,6 +81,14 @@
     <ul class="dropdown-menu">
       <li><a tabindex="-1" href="#">{{sectorStock}}</a></li>
     </ul>
+	{{/each}}
+</template>
+
+<template name="trendingMenu">
+	{{#each trendList}}
+		<li class="dropdown-submenu">
+			<li><a tableindex="-1" href="#">{{stock}}</a></li>
+		</li>
 	{{/each}}
 </template>
 

@@ -16,10 +16,12 @@ if (Meteor.isClient) {
     return SectorStockList.find({/*How to get sector name from loop*/});
   };
 
+  Template.trendingMenu.trendList = function (){
+    return ChartHistory.find({}, {sort: {popularity: -1}});
+  }
+
   Template.insertTabs.tabList = function (){
     DEBUGON && console.log("tabList");
-    // TODO How do I limit the number of items that get returned to the template.
-    // DEBUGON && console.log("tabList");
     var tabs = _.uniq(_.pluck(ChartHistory.find({}, {sort: {date: -1}}).fetch(), "stock")).slice(5);
     DEBUGON && console.log("Hello???", ChartHistory.find({}, {sort: {date: -1}, limit: 10}).fetch());
     var charts = [];
@@ -103,11 +105,14 @@ if (Meteor.isServer) {
       var chartReq = "http://ichart.yahoo.com/table.csv?s=" + tickerSymb + abc + def + "&g=d&ignore=.csv";
       /* DO NOT REMOVE THE FOLLOWING LINE OF CODE!!!  The program does not function without the following line of code for whatever reason. */
       if (ChartHistory.find({stock: tickerSymb}).count() === 0) {
-        DEBUGON && console.log("ChartHistory === 0", ChartHistory.find({stock: tickerSymb}).count);
         ChartHistory.insert({stock: tickerSymb, date: [new Date().getTime()], popularity: 1});
+        DEBUGON && console.log("ChartHistory === 0", ChartHistory.findOne({stock: tickerSymb}));
       } else {
-        DEBUGON && console.log("ChartHistory truthy", ChartHistory.find({stock: tickerSymb}).count);
-        ChartHistory.update({stock: tickerSymb}, {stock: tickerSymb, })
+        var updatedEntry = ChartHistory.findOne({stock: tickerSymb});
+        updatedEntry.date.unshift(new Date().getTime());
+        updatedEntry.popularity += 1;
+        ChartHistory.update({stock: tickerSymb}, updatedEntry);
+        DEBUGON && console.log("ChartHistory truthy", ChartHistory.findOne({stock: tickerSymb}));
       }
       StockData.insert({ticker: tickerSymb});
       Meteor.http.get(chartReq, function(err, response){
