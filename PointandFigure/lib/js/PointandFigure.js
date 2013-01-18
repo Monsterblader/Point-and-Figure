@@ -20,8 +20,13 @@ if (Meteor.isClient) {
     DEBUGON && console.log("tabList");
     // TODO How do I limit the number of items that get returned to the template.
     // DEBUGON && console.log("tabList");
-    // var tabs = _.uniq(ChartHistory.find({}, {sort: {date: -1}}).fetch()).slice(5);
-    return ChartHistory.find({}, {sort: {stock: 1}});
+    var tabs = _.uniq(_.pluck(ChartHistory.find({}, {sort: {date: -1}}).fetch(), "stock")).slice(5);
+    DEBUGON && console.log("Hello???", ChartHistory.find({}, {sort: {date: -1}, limit: 10}).fetch());
+    var charts = [];
+    tabs.forEach(function(value){
+      charts.push({stock: value.stock});
+    });
+    return ChartHistory.find({}, {sort: {date: -1}, limit: 10});
   };
 
   Template.renderChart.stockData = function (){
@@ -97,8 +102,14 @@ if (Meteor.isServer) {
       var def = "&d=" + today.getMonth() + "&e=" + today.getDate() + "&f=" + today.getFullYear();
       var chartReq = "http://ichart.yahoo.com/table.csv?s=" + tickerSymb + abc + def + "&g=d&ignore=.csv";
       /* DO NOT REMOVE THE FOLLOWING LINE OF CODE!!!  The program does not function without the following line of code for whatever reason. */
+      if (ChartHistory.find({stock: tickerSymb}).count() === 0) {
+        DEBUGON && console.log("ChartHistory === 0", ChartHistory.find({stock: tickerSymb}).count);
+        ChartHistory.insert({stock: tickerSymb, date: [new Date().getTime()], popularity: 1});
+      } else {
+        DEBUGON && console.log("ChartHistory truthy", ChartHistory.find({stock: tickerSymb}).count);
+        ChartHistory.update({stock: tickerSymb}, {stock: tickerSymb, })
+      }
       StockData.insert({ticker: tickerSymb});
-      ChartHistory.insert({stock: tickerSymb, date: new Date().getTime()});
       Meteor.http.get(chartReq, function(err, response){
         stockArray = response.content
                       .split(",")
