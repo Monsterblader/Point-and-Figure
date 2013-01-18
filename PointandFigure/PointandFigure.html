@@ -24,34 +24,38 @@
 				</div>
 			</div>
 			<div class="span8">
-				<div class="row span11" id="buttonBox">
-					{{> getChart}}
-					<div class="btn-group pull-right">
-					  <a class="btn dropdown-toggle btn-inverse" data-toggle="dropdown" href="#">
-					    Sectors
-					    <span class="caret"></span>
-					  </a>
-						<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-						  {{> sectorMenu}}
-					    <li class="divider"></li>
-					    <li><a tabindex="-1" href="#">Separated link</a></li>
-					  </ul>
-					</div>
-					<div class="btn-group pull-right">
-					  <a class="btn dropdown-toggle btn-inverse" data-toggle="dropdown" href="#">
-					    Trending
-					    <span class="caret"></span>
-					  </a>
-						<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-						  <li class="dropdown-submenu">
-						    <a tabindex="-1" href="#">List of ten? most selected stocks?</a>
-						  </li>
-					    <li class="divider"></li>
-					    <li><a tabindex="-1" href="#">Separated link</a></li>
-					  </ul>
+				<div class="row span11">
+					<div id="buttonBox">
+						{{> getChart}}
+						<div class="btn-group pull-right">
+						  <a class="btn dropdown-toggle btn-inverse" data-toggle="dropdown" href="#">
+						    Sectors
+						    <span class="caret"></span>
+						  </a>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+							  {{> sectorMenu}}
+						    <li class="divider"></li>
+						    <li><a tabindex="-1" href="#">Separated link</a></li>
+						  </ul>
+						</div>
+						<div class="btn-group pull-right">
+						  <a class="btn dropdown-toggle btn-inverse" data-toggle="dropdown" href="#">
+						    Trending
+						    <span class="caret"></span>
+						  </a>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+							  <li class="dropdown-submenu">
+							    <a tabindex="-1" href="#">List of ten? most selected stocks?</a>
+							  </li>
+						    <li class="divider"></li>
+						    <li><a tabindex="-1" href="#">Separated link</a></li>
+						  </ul>
+						</div>
+						<h3 id="companyName">This is the name of your chart.</h3>
 					</div>
 				</div>
 				<div class="span11" id="chartBox">Chart Box<br/>
+					{{> insertTabs}}
 					{{> renderChart}}
 				</div>
 			</div>
@@ -80,6 +84,22 @@
       <li><a tabindex="-1" href="#">{{sectorStock}}</a></li>
     </ul>
 	{{/each}}
+</template>
+
+<template name="insertTabs">
+	<ul class="nav nav-pills">
+		{{#if tabList.length EQUALS 0}}
+			<li>
+				<a href="#">No charts selected</a>
+			</li>
+		{{else}}
+			{{#each tabList}}
+				<li>
+					<a href="#">{{chart}}</a>
+				</li>
+			{{/each}}
+		{{/if}}
+	</ul>
 </template>
 
 <template name="renderChart">
