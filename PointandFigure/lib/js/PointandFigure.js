@@ -1,6 +1,7 @@
 SectorList = new Meteor.Collection("sectors");
 SectorStockList = new Meteor.Collection("sectorStocksList");
 StockData = new Meteor.Collection("stockData");
+ChartHistory = new Meteor.Collection("chartHistory");
 
 if (Meteor.isClient) {
   Template.sectorMenu.sectorList = function (){
@@ -15,12 +16,12 @@ if (Meteor.isClient) {
     return StockData.find();
   };
 
-  Template.renderChart.draw = function (){
+  Template.renderChart.stockData = function (){
     var tickerSymb = $("#tickerInput").val();
     StockData.findOne({chart: tickerSymb})
   };
 
-  Template.renderChart.rendered = function (){
+  Template.insertTabs.rendered = function (){
     var tickerSymb = $("#tickerInput").val();
     if (StockData.findOne({chart: tickerSymb})) {
       console.log("rendered");
@@ -73,7 +74,7 @@ if (Meteor.isServer) {
       var abc = "&a=" + startDate.getMonth() + "&b=" + startDate.getDate() + "&c=" + startDate.getFullYear();
       var def = "&d=" + today.getMonth() + "&e=" + today.getDate() + "&f=" + today.getFullYear();
       var chartReq = "http://ichart.yahoo.com/table.csv?s=" + tickerSymb + abc + def + "&g=d&ignore=.csv";
-      StockData.insert({ticker: tickerSymb})
+      // ChartHistory.insert({stock: tickerSymb, date: new Date().getTime()});
       Meteor.http.get(chartReq, function(err, response){
         stockArray = response.content
                       .split(",")
@@ -81,11 +82,7 @@ if (Meteor.isServer) {
                       .filter(function (val, key){ return (key % 6) === 0; })
                       .map(function (val, key){ return parseFloat(val); });
         StockData.remove({});
-        // if (StockData.find({chart: tickerSymb}).count()) {
-        //   StockData.update({chart: tickerSymb, data: stockArray});
-        // } else {
-          StockData.insert({chart: tickerSymb, data: stockArray});        
-        // }
+        StockData.insert({chart: tickerSymb, data: stockArray});        
       });
     }
   });

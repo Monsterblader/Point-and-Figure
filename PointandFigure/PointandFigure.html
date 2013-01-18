@@ -65,7 +65,7 @@
 </body>
 
 <template name="getChart">
-	<input type="text" placeholder="Enter ticker symbol here" id="tickerInput"/>
+	<input type="text" placeholder="Enter ticker symbol here" id="tickerInput" autofocus/>
 	<button type="button" class="btn-inverse" value="Show me the money">Show me the money!</button>
 </template>
 
@@ -103,5 +103,6 @@
 </template>
 
 <template name="renderChart">
-	{{draw}}
+	{{#each stockData}}
+	{{/each}}
 </template>
