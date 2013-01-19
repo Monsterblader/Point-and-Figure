@@ -4,8 +4,9 @@ SectorList = new Meteor.Collection("sectors");
 SectorStockList = new Meteor.Collection("sectorStocksList");
 StockData = new Meteor.Collection("stockData");
 ChartHistory = new Meteor.Collection("chartHistory");
+temporary = new Meteor.Collection("temp");
 
-var DEBUGON = true;
+var DEBUGON = false;
 
 if (Meteor.isClient) {
   Template.sectorMenu.sectorList = function (){
@@ -18,7 +19,12 @@ if (Meteor.isClient) {
 
   Template.trendingMenu.trendList = function (){
     return ChartHistory.find({}, {sort: {popularity: -1}});
-  }
+  };
+
+  Template.headerInformation.header = function (){
+    var temp = temporary.find().fetch();
+    return temp.name ? temp.name : "This is the name of your chart";
+  };
 
   Template.insertTabs.tabList = function (){
     DEBUGON && console.log("tabList");
@@ -124,6 +130,13 @@ if (Meteor.isServer) {
         /* DO NOT REMOVE THE FOLLOWING LINE OF CODE!!!  The program does not function without the following line of code for whatever reason. */
         StockData.remove({});
         StockData.insert({chart: tickerSymb, data: stockArray});        
+      });
+      var companyPage = "http://finance.yahoo.com/q?s=yhoo&ql=1";
+      Meteor.http.get(companyPage, function (err, response){
+        // Do I need to test that the entry already exists?
+        var nameIndex = response.content.search(/class=\"title\"><h2>/);
+        var result = response.content.slice(nameIndex + 18, nameIndex + 38);
+        temporary.insert({name: result});
       });
       DEBUGON && console.log("end loadChart");
     }

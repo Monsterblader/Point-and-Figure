@@ -9,18 +9,7 @@
 			<div class="span3" id="titleBox">
 				<h2>The Point and Figure</h2>
 				<div id="moreData">
-					<br/>
-					<h6>Company name:</h6>
-					<h6>Date of incorporation:</h6>
-					<h6>Other information:</h6>
-					<h6>Other information:</h6>
-					<h6>Other information:</h6>
-					<h6>Other information:</h6>
-					<h6>Other information:</h6>
-					<h6>Other information:</h6>
-					<h6>Other information:</h6>
-					<h6>Other information:</h6>
-					<h6>Other information:</h6>
+					{{> moreData}}
 				</div>
 			</div>
 			<div class="span8">
@@ -28,28 +17,12 @@
 					<div id="buttonBox">
 						{{> getChart}}
 						<div class="btn-group pull-right">
-						  <a class="btn dropdown-toggle btn-inverse" data-toggle="dropdown" href="#">
-						    Sectors
-						    <span class="caret"></span>
-						  </a>
-							<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-							  {{> sectorMenu}}
-						    <li class="divider"></li>
-						    <li><a tabindex="-1" href="#">Separated link</a></li>
-						  </ul>
+						  {{> sectorMenu}}
 						</div>
 						<div class="btn-group pull-right">
-						  <a class="btn dropdown-toggle btn-inverse" data-toggle="dropdown" href="#">
-						    Trending
-						    <span class="caret"></span>
-						  </a>
-							<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-								{{> trendingMenu}}
-						    <li class="divider"></li>
-						    <li><a tabindex="-1" href="#">Separated link</a></li>
-						  </ul>
+							{{> trendingMenu}}
 						</div>
-						<h3 id="companyName">This is the name of your chart.</h3>
+						{{> headerInformation}}
 					</div>
 				</div>
 				<div class="span11" id="chartBox">Chart Box<br/>
@@ -62,18 +35,38 @@
 	</div> <!-- End class="container-main span12" -->
 </body>
 
+<template name="moreData">
+	<h6>Company name:</h6>
+	<h6>Date of incorporation:</h6>
+	<h6>Other information:</h6>
+	<h6>Other information:</h6>
+	<h6>Other information:</h6>
+	<h6>Other information:</h6>
+	<h6>Other information:</h6>
+	<h6>Other information:</h6>
+	<h6>Other information:</h6>
+	<h6>Other information:</h6>
+	<h6>Other information:</h6>
+</template>
+
 <template name="getChart">
 	<input type="text" placeholder="Enter ticker symbol here" id="tickerInput" autofocus/>
-	<button type="button" class="btn-inverse" value="Show me the money">Show me the money!</button>
+	<button type="button" class="btn btn-inverse" value="Show me the money">Show me the money!</button>
 </template>
 
 <template name="sectorMenu">
-	{{#each sectorList}}
-	  <li class="dropdown-submenu">
-	    <a tabindex="-1" href="#">{{sector}}</a>
-    	{{> sectorStockMenu}}
-	  </li>
-  {{/each}}
+  <a class="btn dropdown-toggle btn-inverse" data-toggle="dropdown" href="#">
+    Sectors
+    <span class="caret"></span>
+  </a>
+	<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+		{{#each sectorList}}
+		  <li class="dropdown-submenu">
+		    <a tabindex="-1" href="#">{{sector}}</a>
+	    	{{> sectorStockMenu}}
+		  </li>
+	  {{/each}}
+	</ul>
 </template>
 
 <template name="sectorStockMenu">
@@ -85,11 +78,23 @@
 </template>
 
 <template name="trendingMenu">
+  <a class="btn dropdown-toggle btn-inverse" data-toggle="dropdown" href="#">
+    Trending
+    <span class="caret"></span>
+  </a>
+	<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
 	{{#each trendList}}
 		<li class="dropdown-submenu">
 			<li><a tableindex="-1" href="#">{{stock}}</a></li>
 		</li>
 	{{/each}}
+    <li class="divider"></li>
+    <li><a tabindex="-1" href="#">Separated link</a></li>
+  </ul>
+</template>
+
+<template name="headerInformation">
+	<h3 id="companyName">{{header}}</h3>
 </template>
 
 <template name="insertTabs">
