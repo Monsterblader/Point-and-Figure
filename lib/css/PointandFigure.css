@@ -12,12 +12,7 @@ body {
 	margin-right: auto;
 }
 
-.right {
-	text-align: right;
-	border-bottom: 1px solid black;
-}
-
-.hide {
+.hide{
   display: none;
 }
 
@@ -46,6 +41,7 @@ body {
 }
 
 #moreData {
+	border: 1px dashed black;
 	background-color: #741BE0;
 }
 

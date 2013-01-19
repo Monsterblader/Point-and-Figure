@@ -1,0 +1,63 @@
+<template name="topbar">
+  <div class="row span11">
+    <div id="buttonBox">
+      {{> searchForm}}
+      <div class="btn-group pull-right">
+        {{> sectorMenu}}
+      </div>
+      <div class="btn-group pull-right">
+        {{> trendingMenu}}
+      </div>
+      {{> headerInformation}}
+    </div>
+  </div>
+</template>
+
+<template name="searchForm">
+  <input type="text" placeholder="Enter ticker symbol here" id="tickerInput" autofocus/>
+  <button type="button" class="btn btn-inverse" value="Show me the money">Show me the money!</button>
+</template>
+
+<template name="sectorMenu">
+  <a class="btn dropdown-toggle btn-inverse" data-toggle="dropdown" href="#">
+    Sectors
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+    {{#each sectorList}}
+      <li class="dropdown-submenu">
+        <a tabindex="-1" href="#">{{sector}}</a>
+        {{> sectorStockMenu}}
+      </li>
+    {{/each}}
+  </ul>
+</template>
+
+<template name="sectorStockMenu">
+  {{#each sectorStockList}}
+    <ul class="dropdown-menu">
+      <li><a tabindex="-1" href="#">{{sectorStock}}</a></li>
+    </ul>
+  {{/each}}
+</template>
+
+<template name="trendingMenu">
+  <a class="btn dropdown-toggle btn-inverse" data-toggle="dropdown" href="#">
+    Trending
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+  {{#each trendList}}
+    <li class="dropdown-submenu">
+      <li><a tableindex="-1" href="#">{{name}}</a></li>
+    </li>
+  {{/each}}
+    <li class="divider"></li>
+    <li><a tabindex="-1" href="#">Separated link</a></li>
+  </ul>
+</template>
+
+<template name="headerInformation">
+  <h3 id="companyName">{{fullname}}</h3>
+</template>
+
