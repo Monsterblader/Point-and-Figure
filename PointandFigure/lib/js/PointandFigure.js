@@ -1,3 +1,4 @@
+
 //Fix chart sizes in html template
 
 SectorList = new Meteor.Collection("sectors");
@@ -5,7 +6,7 @@ SectorStockList = new Meteor.Collection("sectorStocksList");
 StockData = new Meteor.Collection("stockData");
 ChartHistory = new Meteor.Collection("chartHistory");
 
-var DEBUGON = false;
+var DEBUGON = true;
 
 if (Meteor.isClient) {
   // Session.set("ticker", null);
@@ -43,13 +44,17 @@ if (Meteor.isClient) {
     // None of this really does anything except trigger the .rendered function.
     DEBUGON && console.log("stockData", 1);
     var tickerSymb = Session.get("ticker");
+    Session.get("currChartSymb");
     StockData.findOne({chart: tickerSymb});
   };
 
   Template.renderChart.rendered = function (){
     console.log("rendered", new Date().getTime());
     var tickerSymb = $("#tickerInput").val();
-    if (StockData.findOne({chart: tickerSymb})) {
+    var thing = StockData.findOne({chart: tickerSymb});
+    console.log(thing)
+    console.log(tickerSymb)
+    if (thing) {
       DEBUGON && console.log("rendered");
       var savedData = StockData.findOne({chart: tickerSymb}).data
       var priceRange = findRange(savedData);
@@ -84,18 +89,16 @@ if (Meteor.isClient) {
     }
   });
 
-  Template.getChart.events({
-    'click button': function (){
-      DEBUGON && console.log("click button");
-      Meteor.call("loadChart", $("#tickerInput").val());
-    },
+  var setupChart = function (){
+    DEBUGON && console.log("click button");
+    var input =  $("#tickerInput").val();
+    Session.set("currChartSymb", input);
+    Meteor.call("loadChart", input);
+  };
 
-    'keyup input': function (e){
-      if (e.which === 13) {
-        DEBUGON && console.log("keyup input");
-        Meteor.call("loadChart", $("#tickerInput").val());
-      }
-    }
+  Template.getChart.events({
+    'click button': setupChart,
+    'keyup input': setupChart
   });
 }
 
@@ -145,7 +148,7 @@ if (Meteor.isServer) {
         }
       });
       /* DO NOT REMOVE THE FOLLOWING LINE OF CODE!!!  The program does not function without the following line of code for whatever reason. */
-      StockData.insert({ticker: tickerSymb});
+      // StockData.insert({ticker: tickerSymb});
       Meteor.http.get(chartReq, function(err, response){
         console.log("chartReq", new Date().getTime());
         stockArray = response.content
