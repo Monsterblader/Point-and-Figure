@@ -23,7 +23,7 @@ if (Meteor.isClient) {
 
   Template.headerInformation.header = function (){
     var temp = temporary.find().fetch();
-    return temp.name ? temp.name : "This is the name of your chart";
+    return temp[0] ? temp[0].name : "This is the name of your chart";
   };
 
   Template.insertTabs.tabList = function (){
@@ -54,7 +54,7 @@ if (Meteor.isClient) {
       $(".chartGroup").remove();
       //Move the following line to its template?
       $("#chartBox").append("<canvas class='pnfChart chartGroup' id='" + tickerSymb + "Chart' width='" + chartWidth + "' height='" + chartHeight + "'></canvas>");
-      $("#companyName").html(tickerSymb.toUpperCase());
+      // $("#companyName").html(tickerSymb.toUpperCase());
       $("#tickerInput").val("");
       var canvas = document.getElementById(tickerSymb + "Chart");
       canvas.getContext && webkitRequestAnimationFrame(function (){
@@ -131,12 +131,12 @@ if (Meteor.isServer) {
         StockData.remove({});
         StockData.insert({chart: tickerSymb, data: stockArray});        
       });
-      var companyPage = "http://finance.yahoo.com/q?s=yhoo&ql=1";
+      var companyPage = "http://finance.yahoo.com/q?s=" + tickerSymb + "&ql=1";
       Meteor.http.get(companyPage, function (err, response){
         // Do I need to test that the entry already exists?
         var nameIndex = response.content.search(/class=\"title\"><h2>/);
         var result = response.content.slice(nameIndex + 18, nameIndex + 38);
-        temporary.insert({name: result});
+        temporary.insert({ticker: tickerSymb, name: result});
       });
       DEBUGON && console.log("end loadChart");
     }
