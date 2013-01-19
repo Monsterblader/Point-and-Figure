@@ -20,4 +20,12 @@ if (Meteor.isClient) {
       return "No chart selected";
     }
   };
+
+  Template.sectorStockMenu.events ({
+    "click": function (){
+      console.log("click");
+      Session.set("currChartSymb", this.stock);
+      Meteor.call("loadChart", this.stock);
+    }
+  });
 }

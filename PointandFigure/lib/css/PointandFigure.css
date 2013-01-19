@@ -55,3 +55,7 @@ body {
 	background-color: gray;
 	margin-top: 25px;
 }
+
+.allCaps {
+	text-transform: uppercase;
+}

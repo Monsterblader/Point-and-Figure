@@ -31,7 +31,7 @@ if (Meteor.isServer) {
         // temporary.insert({ticker: tickerSymb, name: regex.exec(result)[0]});
         // Can this be refactored?
         if (ChartHistory.find({stock: tickerSymb}).count() === 0) {
-          ChartHistory.insert({stock: tickerSymb.toUpperCase(), date: [new Date().getTime()], popularity: 1,
+          ChartHistory.insert({stock: tickerSymb, date: [new Date().getTime()], popularity: 1,
                                name: companyName, marketCap: marketCap, PtoE: PtoE, EPS: EPS, DivandYield: DivandYield});
         } else {
           var updatedEntry = ChartHistory.findOne({stock: tickerSymb});
