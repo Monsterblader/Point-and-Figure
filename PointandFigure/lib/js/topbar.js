@@ -21,7 +21,7 @@ if (Meteor.isClient) {
     }
   };
 
-  Template.sectorStockMenu.events ({
+  Template.trendingMenu.events ({
     "click": function (){
       console.log("click");
       Session.set("currChartSymb", this.stock);
