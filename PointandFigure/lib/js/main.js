@@ -36,9 +36,11 @@ if (Meteor.isClient) {
   });
 
   var setupChart = function (){
-    var input =  $("#tickerInput").val();
-    Session.set("currChartSymb", input);
-    Meteor.call("loadChart", input);
+    var input = $("#tickerInput").val();
+    if (input) {
+      Session.set("currChartSymb", input);
+      Meteor.call("loadChart", input);      
+    }
   };
 
   Template.searchForm.events({

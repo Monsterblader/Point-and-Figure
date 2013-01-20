@@ -1,5 +1,5 @@
 <template name="topbar">
-  <div class="row span11">
+  <div class="">
     <div id="buttonBox">
       {{> searchForm}}
       <div class="btn-group pull-right">
@@ -24,6 +24,8 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+    <li><a tabindex="-1" href="#">Industries</a></li>
+    <li class="divider"></li>
     {{#each sectorList}}
       <li class="dropdown-submenu">
         <a tabindex="-1" href="#">{{sector}}</a>
@@ -57,11 +59,8 @@
       <li><a tableindex="-1" href="#">{{name}}</a></li>
     </li>
   {{/each}}
-    <li class="divider"></li>
-    <li><a tabindex="-1" href="#">Separated link</a></li>
 </template>  
 
 <template name="headerInformation">
   <h3 id="companyName">{{fullname}}</h3>
 </template>
-
