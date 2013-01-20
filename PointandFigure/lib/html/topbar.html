@@ -8,14 +8,13 @@
       <div class="btn-group pull-right">
         {{> trendingMenu}}
       </div>
-      {{> headerInformation}}
     </div>
   </div>
 </template>
 
 <template name="searchForm">
   <input type="text" placeholder="Enter ticker symbol here" id="tickerInput" autofocus/>
-  <button type="button" class="btn btn-inverse" value="Show me the money">Show me the money!</button>
+  <button type="button" class="btn btn-inverse" value="Show me the money">GO</button>
 </template>
 
 <template name="sectorMenu">
@@ -60,7 +59,3 @@
     </li>
   {{/each}}
 </template>  
-
-<template name="headerInformation">
-  <h3 id="companyName">{{fullname}}</h3>
-</template>

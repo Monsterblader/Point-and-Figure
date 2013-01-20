@@ -6,12 +6,20 @@
 	<div class="container-main span12">
 
 		<div class="row span12">
-			{{> sidebar}}
-			<div class="span8">
-				{{> topbar}}
-				{{> main}}
-			</div>
+			{{> metaData}}
+			{{> topbar}}
+		</div>
+		<div class="row span12">
+      <div class="span12">
+      	{{> headerInformation}}
+      </div>
+			{{> moreData}}
+			{{> main}}
 		</div>
 
 	</div> <!-- End class="container-main span12" -->
 </body>
+
+<template name="headerInformation">
+  <h3 id="companyName">{{fullname}}</h3>
+</template>
