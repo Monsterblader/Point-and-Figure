@@ -6,14 +6,14 @@ if (Meteor.isClient) {
   Template.renderChart.stockData = function (){
     // None of this really does anything except trigger the .rendered function.
     var tickerSymb = Session.get("currChartSymb");
-    StockData.findOne({chart: tickerSymb});
+    ChartHistory.findOne({stock: tickerSymb});
   };
 
   Template.renderChart.rendered = function (){
     var tickerSymb = Session.get("currChartSymb");
-    var thing = StockData.findOne({chart: tickerSymb});
+    var thing = ChartHistory.findOne({stock: tickerSymb});
     if (thing) {
-      var savedData = StockData.findOne({chart: tickerSymb}).data
+      var savedData = ChartHistory.findOne({stock: tickerSymb}).data
       var priceRange = findRange(savedData);
       var chartWidth = 600;
       var chartHeight = Math.max(300, (priceRange.high - priceRange.low) * 10);
