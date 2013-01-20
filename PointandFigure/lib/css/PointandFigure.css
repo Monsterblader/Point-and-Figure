@@ -17,7 +17,7 @@ body {
 }
 
 .howto {
-	text-align: right;
+	float: right;
 }
 
 .hide {
