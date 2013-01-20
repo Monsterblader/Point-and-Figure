@@ -47,6 +47,11 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+    {{> trendMenuElements}}
+  </ul>
+</template>
+
+<template name="trendMenuElements">
   {{#each trendList}}
     <li class="dropdown-submenu">
       <li><a tableindex="-1" href="#">{{name}}</a></li>
@@ -54,8 +59,7 @@
   {{/each}}
     <li class="divider"></li>
     <li><a tabindex="-1" href="#">Separated link</a></li>
-  </ul>
-</template>
+</template>  
 
 <template name="headerInformation">
   <h3 id="companyName">{{fullname}}</h3>

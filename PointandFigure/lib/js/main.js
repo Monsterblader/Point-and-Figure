@@ -9,12 +9,7 @@ if (Meteor.isClient) {
     ChartHistory.findOne({stock: tickerSymb});
   };
 
-  var testme = function(){
-    console.log("You are here");
-  }
-
   Template.renderChart.rendered = function (){
-    testme();
     var tickerSymb = Session.get("currChartSymb");
     var thing = ChartHistory.findOne({stock: tickerSymb});
     if (thing) {

@@ -7,7 +7,7 @@ if (Meteor.isClient) {
     return SectorStockList.find({/*How to get sector name from loop*/});
   };
 
-  Template.trendingMenu.trendList = function (){
+  Template.trendMenuElements.trendList = function (){
     return ChartHistory.find({}, {sort: {popularity: -1}});
   };
 
@@ -21,7 +21,7 @@ if (Meteor.isClient) {
     }
   };
 
-  Template.trendingMenu.events ({
+  Template.trendMenuElements.events ({
     "click": function (){
       Session.set("currChartSymb", this.stock);
       Meteor.call("loadChart", this.stock);
