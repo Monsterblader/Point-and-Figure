@@ -1,8 +1,8 @@
 /* CSS declarations go here */
 body {
-	background-color: gray;	
-	/*background: url("../../../pw_maze_black.png");*/
-/*	text-shadow: black 0.2em 0.2em 0.4em;
+	background-image: url("http://underscorejs.org/docs/images/background.png");	
+/*	background-image: url("file:///lib/img/pw_maze_black.png");
+*//*	text-shadow: black 0.2em 0.2em 0.4em;
 */}
 
 .container-main {
@@ -14,6 +14,10 @@ body {
 .right {
 	text-align: right;
 	border-bottom: 1px solid black;
+}
+
+.howto {
+	text-align: right;
 }
 
 .hide {
