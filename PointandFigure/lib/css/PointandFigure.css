@@ -25,19 +25,19 @@ body {
 	border: 1px solid black;
 	border-radius: 5px;
 	height: 20%;
-background-image: linear-gradient(bottom, rgb(99,99,99) 26%, rgb(150,147,150) 63%, rgb(173,176,176) 82%);
-background-image: -o-linear-gradient(bottom, rgb(99,99,99) 26%, rgb(150,147,150) 63%, rgb(173,176,176) 82%);
-background-image: -moz-linear-gradient(bottom, rgb(99,99,99) 26%, rgb(150,147,150) 63%, rgb(173,176,176) 82%);
-background-image: -webkit-linear-gradient(bottom, rgb(99,99,99) 26%, rgb(150,147,150) 63%, rgb(173,176,176) 82%);
-background-image: -ms-linear-gradient(bottom, rgb(99,99,99) 26%, rgb(150,147,150) 63%, rgb(173,176,176) 82%);
+background-image: linear-gradient(bottom, rgb(173,176,176) 26%, rgb(150,147,150) 63%, rgb(99,99,99) 82%);
+background-image: -o-linear-gradient(bottom, rgb(173,176,176) 26%, rgb(150,147,150) 63%, rgb(99,99,99) 82%);
+background-image: -moz-linear-gradient(bottom, rgb(173,176,176) 26%, rgb(150,147,150) 63%, rgb(99,99,99) 82%);
+background-image: -webkit-linear-gradient(bottom, rgb(173,176,176) 26%, rgb(150,147,150) 63%, rgb(99,99,99) 82%);
+background-image: -ms-linear-gradient(bottom, rgb(173,176,176) 26%, rgb(150,147,150) 63%, rgb(99,99,99) 82%);
 
 background-image: -webkit-gradient(
 	linear,
 	left bottom,
 	left top,
-	color-stop(0.26, rgb(99,99,99)),
+	color-stop(0.26, rgb(173,176,176)),
 	color-stop(0.63, rgb(150,147,150)),
-	color-stop(0.82, rgb(173,176,176))
+	color-stop(0.82, rgb(99,99,99))
 );
 	margin-top: 25px;
 	padding: 5px;
@@ -52,7 +52,7 @@ background-image: -webkit-gradient(
 }
 
 #buttonBox {
-	border: 1px solid black;
+/*	border: 1px solid black;
 	border-radius: 5px;
 background-image: linear-gradient(bottom, rgb(99,99,99) 26%, rgb(150,147,150) 63%, rgb(173,176,176) 82%);
 background-image: -o-linear-gradient(bottom, rgb(99,99,99) 26%, rgb(150,147,150) 63%, rgb(173,176,176) 82%);
@@ -67,7 +67,7 @@ background-image: -webkit-gradient(
 	color-stop(0.26, rgb(99,99,99)),
 	color-stop(0.63, rgb(150,147,150)),
 	color-stop(0.82, rgb(173,176,176))
-);
+);*/
 	margin-top: 25px;
 }
 
@@ -81,10 +81,10 @@ background-image: -webkit-gradient(
 */}
 
 #chartBox {
-	border: 1px solid black;
+/*	border: 1px solid black;
 	border-radius: 5px;
 	background-color: gray;
-}
+*/}
 
 .allCaps {
 	text-transform: uppercase;
