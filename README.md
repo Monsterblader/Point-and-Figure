@@ -21,6 +21,12 @@ Once the user presses enter in the input field or presses the go button with a n
 
 There is also a pull-down menu of stocks, arranged by industry and sector.  This has not been fully implemented, as it does not demonstrate any technical ability - only the ability to enter 5,000 stocks that are in groups.
 
+## Wish list
+
+The point-and-figure algorithm is not actually the complete one.  I want to write that correctly.
+Implement the Sector menu.
+Incorporate trend lines.  Either automatic ones or ones that the user can create and save.
+
 #Credits
 
 Thanks to Catalyst Class, especially Shawn and Jonathan, for making key elements of this project work, enabling me to spend useful time building this project.

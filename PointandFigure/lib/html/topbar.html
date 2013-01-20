@@ -1,20 +1,20 @@
 <template name="topbar">
   <div class="">
     <div id="buttonBox">
-      {{> searchForm}}
       <div class="btn-group pull-right">
         {{> sectorMenu}}
       </div>
       <div class="btn-group pull-right">
         {{> trendingMenu}}
       </div>
+      {{> searchForm}}
     </div>
   </div>
 </template>
 
 <template name="searchForm">
-  <input type="text" placeholder="Enter ticker symbol here" id="tickerInput" autofocus/>
-  <button type="button" class="btn-mini btn-inverse" value="Show me the money">GO</button>
+  <button type="button" class="btn-mini btn-inverse pull-right" value="Show me the money">GO</button>
+  <input type="text" class="pull-right" placeholder="Enter ticker symbol here" id="tickerInput" autofocus/>
 </template>
 
 <template name="sectorMenu">
