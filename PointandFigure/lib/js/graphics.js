@@ -22,16 +22,80 @@ var createChart = function (ctx, prices, priceRange, chartHeight){
 
   var drawAxes = function (ctx, top, bottom, scale){
     var labelAxis = function (ctx, priceRange){
+      // TODO Ooops!!  Ranges might calculate correctly, but must calculate from actual stock prices!!!
+      var axisRange = function (high, low){
+        return [range5(high, low), range4(high, low), range3(high, low), range2(high, low), range1(high, low)];
+      };
+      var range5 = function (high, low){
+        return high >= 200 ? Math.floor(high / 4) + 1 - Math.max(Math.floor(low / 4), 50) : 0;
+      };
+      var range4 = function (high, low){
+        return (high < 200) && (high >= 100) ? Math.min(101, Math.floor(high / 2) + 1) - Math.max(Math.floor(low / 2), 50) : 0;
+      };
+      var range3 = function (high, low){
+        return (high < 100) && (high >= 20) ? Math.min(101, Math.floor(high) + 1) - Math.max(Math.floor(low), 20) : 0;
+      };
+      var range2 = function (high, low){
+        return (high < 20) && (high >= 5) ? Math.min(41, Math.floor(high * 2) + 1) - Math.max(Math.floor(low * 2), 10) : 0;
+      };
+      var range1 = function (high, low){
+        return high < 5 ? Math.floor(high * 4) + 1 - Math.floor(low * 4) : 0;
+      };
+
       ctx.font = "12px Times New Roman";
       ctx.fillStyle = "Black";
-      var high = Math.max(Math.floor(priceRange.high) + 1, 30);
-      var low = Math.min(high - 30, priceRange.low);
-      for (var i = high; i >= low; i -= 1) {
-        ctx.fillText(i, 1, (high - i + 1) * 10);
+      switch (priceRange.high) {
+        case priceRange.high > 200:
+          increment = 4;
+          break;
+        case priceRange.high > 100:
+          increment = 2;
+          break;
+        case priceRange.high > 20:
+          increment = 1;
+          break;
+        case priceRange.high > 5:
+          increment = 0.5;
+          break;
+        default:
+          increment = 0.25;
+          break;
+      };
+      debugger
+      var breakPoints = axisRange(priceRange.high, priceRange.low);
+      var value = breakPoints[0];
+      var axisIndex = 1;
+      if (value) {
+        for (var i = value; value > 0; value -= 1) {
+          ctx.fillText(200 + value * 4, 1, axisIndex++ * 10);
+        }
+      }
+      value = breakPoints[1];
+      if (value) {
+        for (var i = value; value > 0; value -= 1) {
+          ctx.fillText(100 + value * 2, 1, axisIndex++ * 10);
+        }
+      }
+      value = breakPoints[2];
+      if (value) {
+        for (var i = value; value > 0; value -= 1) {
+          ctx.fillText(20 + value, 1, axisIndex++ * 10);
+        }
+      }
+      value = breakPoints[3];
+      if (value) {
+        for (var i = value; value > 0; value -= 1) {
+          ctx.fillText(5 + value / 2, 1, axisIndex++ * 10);
+        }
+      }
+      value = breakPoints[4];
+      if (value) {
+        for (var i = value; value > 0; value -= 1) {
+          ctx.fillText(value / 2, 1, axisIndex++ * 10);
+        }
       }
     }
 
-    ctx.clearRect(0,0,300,300);
     // This section taken from http://www.w3schools.com/tags/canvas_fillstyle.asp
     var my_gradient=ctx.createLinearGradient(0, 0, 0, chartHeight / 2);
     my_gradient.addColorStop(0,"gray");
@@ -42,8 +106,6 @@ var createChart = function (ctx, prices, priceRange, chartHeight){
     ctx.shadowColor = undefined;
     var axisLeftOffset = Math.max(16, (Math.floor(Math.log(priceRange.high) / Math.LN10) + 2) * 5) + 1;
     drawLine(ctx, makePoint(axisLeftOffset, 0), makePoint(axisLeftOffset, chartHeight), "black");
-    // Following line is no longer needed?
-    // drawLine(ctx, makePoint(0, 150), makePoint(300, 150), "black");
     labelAxis(ctx, priceRange);
   };
 
@@ -72,7 +134,7 @@ var createChart = function (ctx, prices, priceRange, chartHeight){
       ctx.beginPath();
       ctx.arc(X, Y, 5, 0, 2*Math.PI, false);
       ctx.stroke();
-    }
+    };
 
     if (trend) {
       for (var plotIndex = prices[key - 1]; plotIndex <= prices[key]; plotIndex += 1)

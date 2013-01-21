@@ -1,9 +1,9 @@
 /* CSS declarations go here */
 body {
 	background-image: url("http://underscorejs.org/docs/images/background.png");	
-/*	background-image: url("file:///lib/img/pw_maze_black.png");
-*//*	text-shadow: black 0.2em 0.2em 0.4em;
-*/}
+/*	background-image: url("file:///pw_maze_black.png") top left repeat;*/
+	/*text-shadow: black 0.2em 0.2em 0.4em;*/
+}
 
 .container-main {
 	width: 960px;
@@ -16,21 +16,19 @@ body {
 	border-bottom: 1px solid black;
 }
 
-.howto {
-	float: right;
-}
-
 .hide {
   display: none;
 }
 
-#titleBox {
+#topBox {
 	border: 1px solid black;
 	border-radius: 5px;
-	height: 20%;
 	background-color: lightgray;
 	margin-top: 40px;
 	padding: 5px;
+}
+
+#titleBox {
 }
 
 #companyName {

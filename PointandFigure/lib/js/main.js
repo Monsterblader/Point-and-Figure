@@ -30,16 +30,16 @@ if (Meteor.isClient) {
 
   Template.insertTabs.events({
     "click": function (){
-      Session.set("currChartSymb", this.stock);
+      Session.set("currChartSymb", this.stock.toLowerCase());
       Meteor.call("loadChart", this.stock);
     }
   });
 
   var setupChart = function (){
-    var input = $("#tickerInput").val();
+    var input = $("#tickerInput").val().toLowerCase();
     if (input) {
       Session.set("currChartSymb", input);
-      Meteor.call("loadChart", input);      
+      Meteor.call("loadChart", input);
     }
   };
 
