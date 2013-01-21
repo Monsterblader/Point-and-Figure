@@ -22,7 +22,7 @@ var createChart = function (ctx, prices, priceRange, chartHeight){
 
   var drawAxes = function (ctx, top, bottom, scale){
     var labelAxis = function (ctx, priceRange){
-      // TODO Ooops!!  Ranges might calculate correctly, but must calculate from actual stock prices!!!
+      // There are five price increments that are established as part of the definition of point and figure charting.  I have separated the processing of each range into (five) functions.
       var axisRange = function (high, low){
         return [range5(high, low), range4(high, low), range3(high, low), range2(high, low), range1(high, low)];
       };
@@ -44,56 +44,44 @@ var createChart = function (ctx, prices, priceRange, chartHeight){
 
       ctx.font = "12px Times New Roman";
       ctx.fillStyle = "Black";
-      switch (priceRange.high) {
-        case priceRange.high > 200:
-          increment = 4;
-          break;
-        case priceRange.high > 100:
-          increment = 2;
-          break;
-        case priceRange.high > 20:
-          increment = 1;
-          break;
-        case priceRange.high > 5:
-          increment = 0.5;
-          break;
-        default:
-          increment = 0.25;
-          break;
-      };
-      debugger
       var breakPoints = axisRange(priceRange.high, priceRange.low);
-      var value = breakPoints[0];
-      var axisIndex = 1;
-      if (value) {
-        for (var i = value; value > 0; value -= 1) {
-          ctx.fillText(200 + value * 4, 1, axisIndex++ * 10);
-        }
-      }
-      value = breakPoints[1];
-      if (value) {
-        for (var i = value; value > 0; value -= 1) {
-          ctx.fillText(100 + value * 2, 1, axisIndex++ * 10);
-        }
-      }
-      value = breakPoints[2];
-      if (value) {
-        for (var i = value; value > 0; value -= 1) {
-          ctx.fillText(20 + value, 1, axisIndex++ * 10);
-        }
-      }
-      value = breakPoints[3];
-      if (value) {
-        for (var i = value; value > 0; value -= 1) {
-          ctx.fillText(5 + value / 2, 1, axisIndex++ * 10);
-        }
-      }
-      value = breakPoints[4];
-      if (value) {
-        for (var i = value; value > 0; value -= 1) {
-          ctx.fillText(value / 2, 1, axisIndex++ * 10);
-        }
-      }
+      var axisIndex = breakPoints[0];
+      var value;
+      if (priceRange.high > 200) { value = (Math.floor(priceRange.high / 4) + 1) * 4; }
+        else if (priceRange.high > 100) { value = (Math.floor(priceRange.high / 2) + 1) * 2; }
+          else if (priceRange.high > 20) { value = (Math.floor(priceRange.high / 1) + 1) * 1; }
+            else if (priceRange.high > 5) { value = (Math.floor(priceRange.high / .5) + 1) * .5; }
+              else { value = (Math.floor(priceRange.high / .25) + 1) * .25; };
+      // Considering refactor but must still confirm that prices working at boundaries.
+      if (axisIndex) {
+        for (var i = axisIndex; i > 0; value -= 4) {
+          ctx.fillText(value, 1, (axisIndex + 1 - i--) * 10);
+        };
+      };
+      var axisIndex = breakPoints[1];
+      if (axisIndex) {
+        for (var i = axisIndex; i > 0; value -= 2) {
+          ctx.fillText(value, 1, (axisIndex + 1 - i--) * 10);
+        };
+      };
+      var axisIndex = breakPoints[2];
+      if (axisIndex) {
+        for (var i = axisIndex; i > 0; value -= 1) {
+          ctx.fillText(value, 1, (axisIndex + 1 - i--) * 10);
+        };
+      };
+      var axisIndex = breakPoints[3];
+      if (axisIndex) {
+        for (var i = axisIndex; i > 0; value -= 0.50) {
+          ctx.fillText(value, 1, (axisIndex + 1 - i--) * 10);
+        };
+      };
+      var axisIndex = breakPoints[4];
+      if (axisIndex) {
+        for (var i = axisIndex; i > 0; value -= 0.25) {
+          ctx.fillText(value, 1, (axisIndex + 1 - i--) * 10);
+        };
+      };
     }
 
     // This section taken from http://www.w3schools.com/tags/canvas_fillstyle.asp
