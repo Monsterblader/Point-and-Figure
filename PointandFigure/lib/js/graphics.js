@@ -41,119 +41,107 @@ var createChart = function (ctx, prices, priceRange, chartHeight){
       var range1 = function (high, low){
         return high < 5 ? Math.floor(high * 4) + 1 - Math.floor(low * 4) : 0;
       };
-debugger
       ctx.font = "12px Times New Roman";
       ctx.fillStyle = "Black";
       var breakPoints = axisRange(priceRange.high, priceRange.low);
       var n = breakPoints[0] + breakPoints[1] + breakPoints[2] + breakPoints[3] + breakPoints[4];
-var paddedHigh;
-if (n < 30) {
-  n = Math.floor((30 - n) / 2);
-  var splitN;
-  if (breakPoints[0]) {
-    breakPoints[0] += n;
-    paddedHigh = (Math.floor(priceRange.high / 4) + 1 + n) * 4;
-    if (Math.floor(priceRange.low / 4) - 50 > n) {
-      breakPoints[0] += n;
-    } else {
-      breakPoints[0] += Math.floor(priceRange.low / 4) - 50;
-      splitN = n - (Math.floor(priceRange.low / 4) - 50);
-      breakPoints[1] += splitN;
-    }
-  } else if (breakPoints[1]) {
-    if (100 - breakPoints[1] > n) {
-      breakPoints[1] += n;
-      paddedHigh = (Math.floor(priceRange.high / 2) + 1 + n) * 2;
-    } else {
-      breakPoints[1] += 50 - Math.floor(priceRange.high / 2) + 1;
-      splitN = n - (50 - Math.floor(priceRange.high / 2) + 1);
-      breakPoints[0] += splitN
-      paddedHigh = 200 + splitN * 4;
-    }
-    if (Math.floor(priceRange.low / 2) - 50 > n) {
-      breakPoints[1] += n;
-    } else {
-      breakPoints[1] += Math.floor(priceRange.low / 2) - 50;
-      splitN = n - (Math.floor(priceRange.low / 2) - 50);
-      breakPoints[2] += splitN;
-    }
-  } else if (breakPoints[2]) {
-    if (100 - breakPoints[2] > n) {
-      breakPoints[2] += n;
-      paddedHigh = Math.floor(priceRange.high) + 1 + n;
-    } else {
-      breakPoints[2] += 100 - Math.floor(priceRange.high) + 1;
-      splitN = n - (100 - Math.floor(priceRange.high) + 1);
-      breakPoints[1] += splitN;
-      paddedHigh = 100 + splitN * 2;
-    }
-    if (Math.floor(priceRange.low) - 20 > n) {
-      breakPoints[2] += n;
-    } else {
-      breakPoints[2] += Math.floor(priceRange.low) - 20;
-      splitN = n - (Math.floor(priceRange.low) - 20);
-      breakPoints[3] += splitN;
-    }
-  } else if (breakPoints[3]) {
-    if (20 - breakPoints[3] > n) {
-      breakPoints[3] += n;
-      paddedHigh = (Math.floor(priceRange.high / 0.5) + 1 + n) * 0.5;
-    } else {
-      breakPoints[3] += 20 - Math.floor(priceRange.high / 0.5) + 1;
-      splitN = n - (20 - Math.floor(priceRange.high / 0.5) + 1);
-      breakPoints[2] += splitN;
-      paddedHigh = 20 + splitN;
-    }
-    if (Math.floor(priceRange.low) - 5 > n) {
-      breakPoints[3] += n;
-    } else {
-      breakPoints[3] += Math.floor(priceRange.low / 0.5) - 5;
-      splitN = n - (Math.floor(priceRange.low) - 5);
-      breakPoints[4] += splitN;
-    }
-  } else {
-    breakPoints[3] = 10;
-    paddedHigh = 10;
-    breakPoints[4] = 20;
-  }
-} else {
-  paddedHigh = Math.floor(priceRange.high);
-}
-/*      var value;
-      if (priceRange.high > 200) { value = (Math.floor(priceRange.high / 4) + 1) * 4; }
-        else if (priceRange.high > 100) { value = (Math.floor(priceRange.high / 2) + 1) * 2; }
-          else if (priceRange.high > 20) { value = (Math.floor(priceRange.high / 1) + 1) * 1; }
-            else if (priceRange.high > 5) { value = (Math.floor(priceRange.high / .5) + 1) * .5; }
-              else { value = (Math.floor(priceRange.high / .25) + 1) * .25; };
-*/      // Considering refactor but must still confirm that prices working at boundaries.
-      var axisIndex = breakPoints[0];
-      if (axisIndex) {
-        for (var i = axisIndex; i > 0; paddedHigh -= 4) {
-          ctx.fillText(paddedHigh, 1, (axisIndex + 1 - i--) * 10);
+      var paddedHigh;
+      if (n < 30) {
+        n = Math.floor((30 - n) / 2);
+        var splitN;
+        if (breakPoints[0]) {
+          breakPoints[0] += n;
+          paddedHigh = (Math.floor(priceRange.high / 4) + 1 + n) * 4;
+          if (Math.floor(priceRange.low / 4) - 50 > n) {
+            breakPoints[0] += n;
+          } else {
+            breakPoints[0] += Math.floor(priceRange.low / 4) - 50;
+            splitN = n - (Math.floor(priceRange.low / 4) - 50);
+            breakPoints[1] += splitN;
+          }
+        } else if (breakPoints[1]) {
+          if (100 - Math.floor(priceRange.high / 2) > n) {
+            breakPoints[1] += n;
+            paddedHigh = (Math.floor(priceRange.high / 2) + 1 + n) * 2;
+          } else {
+            breakPoints[1] += 100 - Math.floor(priceRange.high / 2);
+            splitN = n - (100 - Math.floor(priceRange.high / 2));
+            breakPoints[0] += splitN
+            paddedHigh = 200 + splitN * 4;
+          }
+          if (Math.floor(priceRange.low / 2) - 50 > n) {
+            breakPoints[1] += n;
+          } else {
+            breakPoints[1] += Math.floor(priceRange.low / 2) - 50;
+            splitN = n - (Math.floor(priceRange.low / 2) - 50);
+            breakPoints[2] += splitN;
+          }
+        } else if (breakPoints[2]) {
+          if (100 - Math.floor(priceRange.high) > n) {
+            breakPoints[2] += n;
+            paddedHigh = Math.floor(priceRange.high) + 1 + n;
+          } else {
+            breakPoints[2] += 100 - Math.floor(priceRange.high) + 1;
+            splitN = n - (100 - Math.floor(priceRange.high) + 1);
+            breakPoints[1] += splitN;
+            paddedHigh = 100 + splitN * 2;
+          }
+          if (Math.floor(priceRange.low) - 20 > n) {
+            breakPoints[2] += n;
+          } else {
+            breakPoints[2] += Math.floor(priceRange.low) - 20;
+            splitN = n - (Math.floor(priceRange.low) - 20);
+            breakPoints[3] += splitN;
+          }
+        } else if (breakPoints[3]) {
+          if (40 - Math.floor(priceRange.high / 0.5) > n) {
+            breakPoints[3] += n;
+            paddedHigh = (Math.floor(priceRange.high / 0.5) + 1 + n) * 0.5;
+          } else {
+            breakPoints[3] += 40 - Math.floor(priceRange.high / 0.5) + 1;
+            splitN = n - (40 - Math.floor(priceRange.high / 0.5) + 1);
+            breakPoints[2] += splitN;
+            paddedHigh = 20 + splitN * 0.5;
+          }
+          if (Math.floor(priceRange.low / 0.5) - 10 > n) {
+            breakPoints[3] += n;
+          } else {
+            breakPoints[3] += Math.floor(priceRange.low / 0.5) - 10;
+            splitN = n - (Math.floor(priceRange.low) - 10);
+            breakPoints[4] += splitN * 0.25;
+          }
+        } else {
+          breakPoints[3] = 10;
+          paddedHigh = 10;
+          breakPoints[4] = 20;
+        }
+      } else {
+        paddedHigh = Math.floor(priceRange.high);
+      }
+      var axisIndex = 1;
+      if (breakPoints[0]) {
+        for (var i = breakPoints[0]; i-- > 0; paddedHigh -= 4) {
+          ctx.fillText(paddedHigh, 1, axisIndex++ * 10);
         };
       };
-      var axisIndex = breakPoints[1];
-      if (axisIndex) {
-        for (var i = axisIndex; i > 0; paddedHigh -= 2) {
-          ctx.fillText(paddedHigh, 1, (axisIndex + 1 - i--) * 10);
+      if (breakPoints[1]) {
+        for (var i = breakPoints[1]; i-- > 0; paddedHigh -= 2) {
+          ctx.fillText(paddedHigh, 1, axisIndex++ * 10);
         };
       };
-      var axisIndex = breakPoints[2];
-      if (axisIndex) {
-        for (var i = axisIndex; i > 0; paddedHigh -= 1) {
-          ctx.fillText(paddedHigh, 1, (axisIndex + 1 - i--) * 10);
+      if (breakPoints[2]) {
+        for (var i = breakPoints[2]; i-- > 0; paddedHigh -= 1) {
+          ctx.fillText(paddedHigh, 1, axisIndex++ * 10);
         };
       };
-      var axisIndex = breakPoints[3];
-      if (axisIndex) {
-        for (var i = axisIndex; i > 0; paddedHigh -= 0.50) {
-          ctx.fillText(paddedHigh, 1, (axisIndex + 1 - i--) * 10);
+      if (breakPoints[3]) {
+        for (var i = breakPoints[3]; i-- > 0; paddedHigh -= 0.50) {
+          ctx.fillText(paddedHigh, 1, axisIndex++ * 10);
         };
       };
-      var axisIndex = breakPoints[4];
-      if (axisIndex) {
-        for (var i = axisIndex; i > 0; paddedHigh -= 0.25) {
-          ctx.fillText(paddedHigh, 1, (axisIndex + 1 - i--) * 10);
+      if (breakPoints[4]) {
+        for (var i = breakPoints[4]; i-- > 0; paddedHigh -= 0.25) {
+          ctx.fillText(paddedHigh, 1, axisIndex++ * 10);
         };
       };
     }
@@ -166,7 +154,7 @@ if (n < 30) {
     ctx.fillRect(0, 0, 300, chartHeight);
     // End section
     ctx.shadowColor = undefined;
-    var axisLeftOffset = Math.max(16, (Math.floor(Math.log(priceRange.high) / Math.LN10) + 2) * 5) + 1;
+    var axisLeftOffset = Math.max(16, (Math.floor(Math.log(priceRange.high) / Math.LN10) + 2) * 5) + 8;
     drawLine(ctx, makePoint(axisLeftOffset, 0), makePoint(axisLeftOffset, chartHeight), "black");
     labelAxis(ctx, priceRange);
   };
@@ -209,7 +197,7 @@ if (n < 30) {
   }
 
   // todo Y always starts in the center.  Need to write scale to left properly.
-  var X = Math.max(25, (Math.floor(Math.log(priceRange.high) / Math.LN10) + 4) * 5),
+  var X = Math.max(32, (Math.floor(Math.log(priceRange.high) / Math.LN10) + 4) * 5 + 7),
       Y = (Math.max(Math.floor(priceRange.high), 30) - Math.floor(prices[0]) + 1) * 10 + 5;
   var trendUp = (prices[1] - prices[0]) >= 0;
   drawAxes(ctx);
