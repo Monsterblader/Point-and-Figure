@@ -54,67 +54,42 @@ var createChart = function (ctx, prices, priceRange, chartHeight){
       if (n < 30) {
         n = Math.floor((30 - n) / 2);
         var splitN;
+        var padHigh = function (index){
+          var top = BREAKPOINTS[index].top;
+          var increment = BREAKPOINTS[index].increment;
+          if (top - Math.floor(priceRange.high / increment) > n) {
+            totalTicks[index] += n;
+            paddedHigh = (Math.floor(priceRange.high / increment) + 1 + n) * increment;
+          } else {
+            totalTicks[index] += (top / increment) - Math.floor(priceRange.high / increment);
+            splitN = n - ((top / increment) - Math.floor(priceRange.high / increment));
+            totalTicks[index - 1] += splitN
+            paddedHigh = BREAKPOINTS[index - 1].bottom + splitN * BREAKPOINTS[index - 1].increment;
+          }
+        };
+        var padLow = function (index){
+          var bottom = BREAKPOINTS[index].bottom;
+          var increment = BREAKPOINTS[index].increment;
+          if (Math.floor(priceRange.low / increment) - (bottom / increment) > n) {
+            totalTicks[index] += n;
+          } else {
+            totalTicks[index] += Math.floor(priceRange.low / increment) - (bottom / increment);
+            totalTicks[index + 1] += n - (Math.floor(priceRange.low / increment) - (bottom / increment));
+          }
+        };
         if (totalTicks[0]) {
           totalTicks[0] += n;
           paddedHigh = (Math.floor(priceRange.high / 4) + 1 + n) * 4;
-          if (Math.floor(priceRange.low / 4) - 50 > n) {
-            totalTicks[0] += n;
-          } else {
-            totalTicks[0] += Math.floor(priceRange.low / 4) - 50;
-            splitN = n - (Math.floor(priceRange.low / 4) - 50);
-            totalTicks[1] += splitN;
-          }
+          padLow(0);
         } else if (totalTicks[1]) {
-          if (100 - Math.floor(priceRange.high / 2) > n) {
-            totalTicks[1] += n;
-            paddedHigh = (Math.floor(priceRange.high / 2) + 1 + n) * 2;
-          } else {
-            totalTicks[1] += 100 - Math.floor(priceRange.high / 2);
-            splitN = n - (100 - Math.floor(priceRange.high / 2));
-            totalTicks[0] += splitN
-            paddedHigh = 200 + splitN * 4;
-          }
-          if (Math.floor(priceRange.low / 2) - 50 > n) {
-            totalTicks[1] += n;
-          } else {
-            totalTicks[1] += Math.floor(priceRange.low / 2) - 50;
-            splitN = n - (Math.floor(priceRange.low / 2) - 50);
-            totalTicks[2] += splitN;
-          }
+          padHigh(1);
+          padLow(1)
         } else if (totalTicks[2]) {
-          if (100 - Math.floor(priceRange.high) > n) {
-            totalTicks[2] += n;
-            paddedHigh = Math.floor(priceRange.high) + 1 + n;
-          } else {
-            totalTicks[2] += 100 - Math.floor(priceRange.high) + 1;
-            splitN = n - (100 - Math.floor(priceRange.high) + 1);
-            totalTicks[1] += splitN;
-            paddedHigh = 100 + splitN * 2;
-          }
-          if (Math.floor(priceRange.low) - 20 > n) {
-            totalTicks[2] += n;
-          } else {
-            totalTicks[2] += Math.floor(priceRange.low) - 20;
-            splitN = n - (Math.floor(priceRange.low) - 20);
-            totalTicks[3] += splitN;
-          }
+          padHigh(2);
+          padLow(2);
         } else if (totalTicks[3]) {
-          if (40 - Math.floor(priceRange.high / 0.5) > n) {
-            totalTicks[3] += n;
-            paddedHigh = (Math.floor(priceRange.high / 0.5) + 1 + n) * 0.5;
-          } else {
-            totalTicks[3] += 40 - Math.floor(priceRange.high / 0.5) + 1;
-            splitN = n - (40 - Math.floor(priceRange.high / 0.5) + 1);
-            totalTicks[2] += splitN;
-            paddedHigh = 20 + splitN * 0.5;
-          }
-          if (Math.floor(priceRange.low / 0.5) - 10 > n) {
-            totalTicks[3] += n;
-          } else {
-            totalTicks[3] += Math.floor(priceRange.low / 0.5) - 10;
-            splitN = n - (Math.floor(priceRange.low) - 10);
-            totalTicks[4] += splitN * 0.25;
-          }
+          padHigh(3);
+          padLow(3);
         } else {
           totalTicks[3] = 10;
           paddedHigh = 10;
@@ -123,7 +98,6 @@ var createChart = function (ctx, prices, priceRange, chartHeight){
       } else {
         paddedHigh = Math.floor(priceRange.high);
       }
-        debugger
       var axisIndex = 1;
       for (var i = 0; i < 5; i += 1) {
         if (totalTicks[i]) {
