@@ -20,130 +20,118 @@ var createChart = function (ctx, prices, priceRange, chartHeight){
     return {x: X, y: Y};
   }
 
+// TODO fix bug where YHOO shows 21.5
+
   var drawAxes = function (ctx, top, bottom, scale){
     var labelAxis = function (ctx, priceRange){
       // There are five price increments that are established as part of the definition of point and figure charting.  I have separated the processing of each range into (five) functions.
-      var axisRange = function (high, low){
-        return [range5(high, low), range4(high, low), range3(high, low), range2(high, low), range1(high, low)];
+      var BREAKPOINTS = [{top: Infinity, bottom: 200, increment: 4},
+                         {top: 200, bottom: 100, increment: 2},
+                         {top: 100, bottom: 20, increment: 1},
+                         {top: 20, bottom: 5, increment: 0.50},
+                         {top: 5, bottom: 0, increment: 0.25}];
+      var axisTickCount = function (high, low){
+        var returnArray = [];
+        for (var i = 0; i < 5; i += 1) {
+          if ((high < BREAKPOINTS[i].top) && (high >= BREAKPOINTS[i].bottom)) {
+            // This determines if the stock's high price exceeds the top boundary.
+            var highValue = Math.min(BREAKPOINTS[i].top / BREAKPOINTS[i].increment + 1, Math.floor(high / BREAKPOINTS[i].increment) + 1);
+            // This determines if the stock's low price exceeds the bottom boundary.
+            var lowValue = Math.max(BREAKPOINTS[i].bottom / BREAKPOINTS[i].increment, Math.floor(low / BREAKPOINTS[i].increment));
+            returnArray.push(highValue - lowValue);
+          } else {
+            returnArray.push(0);
+          };
+        };
+        return returnArray;
       };
-      var range5 = function (high, low){
-        return high >= 200 ? Math.floor(high / 4) + 1 - Math.max(Math.floor(low / 4), 50) : 0;
-      };
-      var range4 = function (high, low){
-        return (high < 200) && (high >= 100) ? Math.min(101, Math.floor(high / 2) + 1) - Math.max(Math.floor(low / 2), 50) : 0;
-      };
-      var range3 = function (high, low){
-        return (high < 100) && (high >= 20) ? Math.min(101, Math.floor(high) + 1) - Math.max(Math.floor(low), 20) : 0;
-      };
-      var range2 = function (high, low){
-        return (high < 20) && (high >= 5) ? Math.min(41, Math.floor(high * 2) + 1) - Math.max(Math.floor(low * 2), 10) : 0;
-      };
-      var range1 = function (high, low){
-        return high < 5 ? Math.floor(high * 4) + 1 - Math.floor(low * 4) : 0;
-      };
+
       ctx.font = "12px Times New Roman";
       ctx.fillStyle = "Black";
-      var breakPoints = axisRange(priceRange.high, priceRange.low);
-      var n = breakPoints[0] + breakPoints[1] + breakPoints[2] + breakPoints[3] + breakPoints[4];
+      var totalTicks = axisTickCount(priceRange.high, priceRange.low);
+      var n = totalTicks[0] + totalTicks[1] + totalTicks[2] + totalTicks[3] + totalTicks[4];
       var paddedHigh;
       if (n < 30) {
         n = Math.floor((30 - n) / 2);
         var splitN;
-        if (breakPoints[0]) {
-          breakPoints[0] += n;
+        if (totalTicks[0]) {
+          totalTicks[0] += n;
           paddedHigh = (Math.floor(priceRange.high / 4) + 1 + n) * 4;
           if (Math.floor(priceRange.low / 4) - 50 > n) {
-            breakPoints[0] += n;
+            totalTicks[0] += n;
           } else {
-            breakPoints[0] += Math.floor(priceRange.low / 4) - 50;
+            totalTicks[0] += Math.floor(priceRange.low / 4) - 50;
             splitN = n - (Math.floor(priceRange.low / 4) - 50);
-            breakPoints[1] += splitN;
+            totalTicks[1] += splitN;
           }
-        } else if (breakPoints[1]) {
+        } else if (totalTicks[1]) {
           if (100 - Math.floor(priceRange.high / 2) > n) {
-            breakPoints[1] += n;
+            totalTicks[1] += n;
             paddedHigh = (Math.floor(priceRange.high / 2) + 1 + n) * 2;
           } else {
-            breakPoints[1] += 100 - Math.floor(priceRange.high / 2);
+            totalTicks[1] += 100 - Math.floor(priceRange.high / 2);
             splitN = n - (100 - Math.floor(priceRange.high / 2));
-            breakPoints[0] += splitN
+            totalTicks[0] += splitN
             paddedHigh = 200 + splitN * 4;
           }
           if (Math.floor(priceRange.low / 2) - 50 > n) {
-            breakPoints[1] += n;
+            totalTicks[1] += n;
           } else {
-            breakPoints[1] += Math.floor(priceRange.low / 2) - 50;
+            totalTicks[1] += Math.floor(priceRange.low / 2) - 50;
             splitN = n - (Math.floor(priceRange.low / 2) - 50);
-            breakPoints[2] += splitN;
+            totalTicks[2] += splitN;
           }
-        } else if (breakPoints[2]) {
+        } else if (totalTicks[2]) {
           if (100 - Math.floor(priceRange.high) > n) {
-            breakPoints[2] += n;
+            totalTicks[2] += n;
             paddedHigh = Math.floor(priceRange.high) + 1 + n;
           } else {
-            breakPoints[2] += 100 - Math.floor(priceRange.high) + 1;
+            totalTicks[2] += 100 - Math.floor(priceRange.high) + 1;
             splitN = n - (100 - Math.floor(priceRange.high) + 1);
-            breakPoints[1] += splitN;
+            totalTicks[1] += splitN;
             paddedHigh = 100 + splitN * 2;
           }
           if (Math.floor(priceRange.low) - 20 > n) {
-            breakPoints[2] += n;
+            totalTicks[2] += n;
           } else {
-            breakPoints[2] += Math.floor(priceRange.low) - 20;
+            totalTicks[2] += Math.floor(priceRange.low) - 20;
             splitN = n - (Math.floor(priceRange.low) - 20);
-            breakPoints[3] += splitN;
+            totalTicks[3] += splitN;
           }
-        } else if (breakPoints[3]) {
+        } else if (totalTicks[3]) {
           if (40 - Math.floor(priceRange.high / 0.5) > n) {
-            breakPoints[3] += n;
+            totalTicks[3] += n;
             paddedHigh = (Math.floor(priceRange.high / 0.5) + 1 + n) * 0.5;
           } else {
-            breakPoints[3] += 40 - Math.floor(priceRange.high / 0.5) + 1;
+            totalTicks[3] += 40 - Math.floor(priceRange.high / 0.5) + 1;
             splitN = n - (40 - Math.floor(priceRange.high / 0.5) + 1);
-            breakPoints[2] += splitN;
+            totalTicks[2] += splitN;
             paddedHigh = 20 + splitN * 0.5;
           }
           if (Math.floor(priceRange.low / 0.5) - 10 > n) {
-            breakPoints[3] += n;
+            totalTicks[3] += n;
           } else {
-            breakPoints[3] += Math.floor(priceRange.low / 0.5) - 10;
+            totalTicks[3] += Math.floor(priceRange.low / 0.5) - 10;
             splitN = n - (Math.floor(priceRange.low) - 10);
-            breakPoints[4] += splitN * 0.25;
+            totalTicks[4] += splitN * 0.25;
           }
         } else {
-          breakPoints[3] = 10;
+          totalTicks[3] = 10;
           paddedHigh = 10;
-          breakPoints[4] = 20;
+          totalTicks[4] = 20;
         }
       } else {
         paddedHigh = Math.floor(priceRange.high);
       }
+        debugger
       var axisIndex = 1;
-      if (breakPoints[0]) {
-        for (var i = breakPoints[0]; i-- > 0; paddedHigh -= 4) {
-          ctx.fillText(paddedHigh, 1, axisIndex++ * 10);
+      for (var i = 0; i < 5; i += 1) {
+        if (totalTicks[i]) {
+          for (var j = totalTicks[i]; j-- > 0; paddedHigh -= BREAKPOINTS[i].increment) {
+            ctx.fillText(paddedHigh, 1, axisIndex++ * 10);
+          };
         };
-      };
-      if (breakPoints[1]) {
-        for (var i = breakPoints[1]; i-- > 0; paddedHigh -= 2) {
-          ctx.fillText(paddedHigh, 1, axisIndex++ * 10);
-        };
-      };
-      if (breakPoints[2]) {
-        for (var i = breakPoints[2]; i-- > 0; paddedHigh -= 1) {
-          ctx.fillText(paddedHigh, 1, axisIndex++ * 10);
-        };
-      };
-      if (breakPoints[3]) {
-        for (var i = breakPoints[3]; i-- > 0; paddedHigh -= 0.50) {
-          ctx.fillText(paddedHigh, 1, axisIndex++ * 10);
-        };
-      };
-      if (breakPoints[4]) {
-        for (var i = breakPoints[4]; i-- > 0; paddedHigh -= 0.25) {
-          ctx.fillText(paddedHigh, 1, axisIndex++ * 10);
-        };
-      };
+      }
     }
 
     // This section taken from http://www.w3schools.com/tags/canvas_fillstyle.asp
