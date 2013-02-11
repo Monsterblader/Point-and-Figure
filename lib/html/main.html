@@ -1,0 +1,26 @@
+<template name="main">
+  <div class="span8" id="chartBox"><br/>
+    {{> insertTabs}}
+    {{> renderChart}}
+  </div>
+</template>
+
+<template name="insertTabs">
+  <ul class="nav nav-pills">
+    {{#if tabList.length EQUALS 0}}
+      <li>
+        <a href="#">No charts selected</a>
+      </li>
+    {{else}}
+      {{#each tabList}}
+        <li>
+          <a class="allCaps" href="#">{{stock}}</a>
+        </li>
+      {{/each}}
+    {{/if}}
+  </ul>
+</template>
+
+<template name="renderChart">
+  {{stockData}}
+</template>
