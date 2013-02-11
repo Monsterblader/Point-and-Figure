@@ -1,0 +1,12 @@
+start value = closing price[0]
+curr value = start value
+read next value
+if next value < cur value
+for each val from curr value to next val, draw "o" at math.floor
+else do same for "x"
+
+curr value = next value
+get next value
+if Math.floor(next value) extends dir of curr col, draw more.
+	else if next value reverses by three points or more, draw reversal
+curr value = next value.
