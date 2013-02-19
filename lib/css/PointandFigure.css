@@ -1,6 +1,6 @@
 /* CSS declarations go here */
 body {
-	background-image: url("http://underscorejs.org/docs/images/background.png");	
+	background-image: url("http://underscorejs.org/docs/images/background.png");
 /*	background-image: url("file:///pw_maze_black.png") top left repeat;*/
 	/*text-shadow: black 0.2em 0.2em 0.4em;*/
 }
@@ -14,6 +14,10 @@ body {
 .right {
 	text-align: right;
 	border-bottom: 1px solid black;
+}
+
+.howto {
+	float: right;
 }
 
 .hide {

@@ -1,9 +1,10 @@
-Meteor
+Point-and-Figure Charting
 ======
 
-Meteor projects
+#What is point-and-figure Charting?
 
-#Point and Figure Charting
+For an explanation and brief tutorial, go here:
+http://en.wikipedia.org/wiki/Point_and_figure_chart
 
 My first major program.  This will create point-and-figure charts based on the user's input.  It gets the price data from ichart.yahoo.com, and the financial data comes from finance.yahoo.com.
 
@@ -11,7 +12,15 @@ I wrote it in Javascript, using HTML and CSS.  I wrote it on the meteor framewor
 
 ## Running the program
 
-Create a new project in Meteor and copy the files to that directory.  Run the Meteor server.  Direct your browser to localhost:3000.
+Try it on Monsterblader.meteor.com
+
+--OR--
+
+You must have meteor installed on your local host to run this program.  (www.meteor.com)
+Clone the project.
+Change to the Point-and-Figure directory.
+Run "meteor."
+Direct your browser to localhost:3000.
 
 ## Using the program
 
@@ -19,7 +28,11 @@ There is one input field where the user is expected to enter a ticker symbol of 
 
 Once the user presses enter in the input field or presses the go button with a non-"" entry, a tab with the ticker symbol is created above the chart, the selection is counted, and the "Trending" pull-down menu is updated.  The menu contains a list of all of the user-selected stocks, sorted by stocks' popularity.  Selecting a stock from the tab or from the Trending menu will display that stock's chart and information.
 
-There is also a pull-down menu of stocks, arranged by industry and sector.  This has not been fully implemented, as it does not demonstrate any technical ability - only the ability to enter 5,000 stocks that are in groups.
+## Dependencies
+
+ichart.yahoo.com
+finance.yahoo.com
+The meteor development environment.  (www.meteor.com)
 
 ## Wish list
 
@@ -30,7 +43,3 @@ Incorporate trend lines.  Either automatic ones or ones that the user can create
 #Credits
 
 Thanks to Catalyst Class, especially Shawn and Jonathan, for making key elements of this project work, enabling me to spend useful time building this project.
-
-Thanks to Yahoo! for providing the data necessary for making this project do something interesting.
-
-Thanks to the folks who created Meteor, making this project a little easier to create.
