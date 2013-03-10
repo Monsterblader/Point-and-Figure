@@ -28,7 +28,14 @@
     {{#each sectorList}}
       <li class="dropdown-submenu">
         <a tabindex="-1" href="#">{{sector}}</a>
-        {{> sectorStockMenu}}
+        {{sector.subsector.industry}}
+        {{#each sectorList.subsector}}
+        {{industry}}
+          <ul class="dropdown-submenu">
+            <li><a tabindex="-2" href="#">Help me!!!</a></li>
+          </ul>
+        {{/each}}
+<!--         {{> sectorStockMenu}} -->
       </li>
     {{/each}}
   </ul>
@@ -58,4 +65,4 @@
       <li><a tableindex="-1" href="#">{{name}}</a></li>
     </li>
   {{/each}}
-</template>  
+</template>
