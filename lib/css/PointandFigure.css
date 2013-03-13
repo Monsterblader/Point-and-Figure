@@ -1,12 +1,12 @@
 /* CSS declarations go here */
 body {
-	background-image: url("http://underscorejs.org/docs/images/background.png");	
+	background-image: url("http://underscorejs.org/docs/images/background.png");
 /*	background-image: url("file:///lib/img/pw_maze_black.png");
 *//*	text-shadow: black 0.2em 0.2em 0.4em;
 */}
 
 .container-main {
-	width: 960px;
+	width: 940px;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -24,7 +24,7 @@ body {
   display: none;
 }
 
-#titleBox {
+.titleBox {
 	border: 1px solid black;
 	border-radius: 5px;
 	height: 20%;
@@ -33,14 +33,14 @@ body {
 	padding: 5px;
 }
 
-#companyName {
+.companyName {
 }
 
 .chartTitle {
 	border-bottom: 1px solid black;
 }
 
-#buttonBox {
+.buttonBox {
 	margin-top: 25px;
 }
 
@@ -49,17 +49,17 @@ body {
 	margin-left: auto;
 }
 
-#payload {
+.payload {
 	margin-top: 15px;
 	border: 1px solid black;
 	border-radius: 5px;
 	background-color: lightgray;
 }
 
-#moreData {
+.moreData {
 }
 
-#chartBox {
+.chartBox {
 }
 
 .allCaps {
