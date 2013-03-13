@@ -3,25 +3,27 @@
 </head>
 
 <body>
-	<div class="container-main span12">
+	<div class="container-main">
 
-		<div class="row span12" id="topBox">
+		<div class="row">
 			{{> metaData}}
 		</div>
 		<div class="row span12">
 			{{> topbar}}
 		</div>
-		<div class="row span12" id="payload">
+		<div class="payload row">
       <div class="span12">
       	{{> headerInformation}}
       </div>
-			{{> moreData}}
-			{{> main}}
+      <div class="row-fluid span12">
+  			{{> moreData}}
+  			{{> main}}
+      </div>
 		</div>
 
 	</div> <!-- End class="container-main span12" -->
 </body>
 
 <template name="headerInformation">
-  <h3 id="companyName">{{fullname}}</h3>
+  <h3 class="companyName">{{fullname}}</h3>
 </template>
