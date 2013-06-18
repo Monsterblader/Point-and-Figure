@@ -12,7 +12,7 @@ I wrote it in Javascript, using HTML and CSS.  I wrote it on the meteor framewor
 
 ## Running the program
 
-Try it on Monsterblader.meteor.com
+Try it on http://Monsterblader.meteor.com
 
 --OR--
 
@@ -30,15 +30,15 @@ Once the user presses enter in the input field or presses the go button with a n
 
 ## Dependencies
 
-ichart.yahoo.com
-finance.yahoo.com
-The meteor development environment.  (www.meteor.com)
+* ichart.yahoo.com
+* finance.yahoo.com
+* The meteor development environment.  (www.meteor.com)
 
 ## Wish list
 
-The point-and-figure algorithm is not actually the complete one.  I want to write that correctly.
-Implement the Sector menu.
-Incorporate trend lines.  Either automatic ones or ones that the user can create and save.
+* The point-and-figure algorithm is not actually the complete one.  I want to write that correctly.
+* Implement the Sector menu.
+* Incorporate trend lines.  Either automatic ones or ones that the user can create and save.
 
 #Credits
 
